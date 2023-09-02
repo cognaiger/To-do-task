@@ -1,0 +1,66 @@
+.left-0{
+    display: block;
+    border-right: 1px solid rgba(51, 51, 51, 0.14) ;
+}
+.left-box{
+    display: flex;
+    height: 100vh;
+    border: none;
+   
+    
+}
+.add-task {
+    padding: 20px;
+}
+.title {
+    margin-bottom: 20px;
+}
+
+
+
+input:checked{
+    display: inline;
+}
+
+input {
+    display: flex;
+    width: 100%;
+}
+
+.taskForm {
+    padding: 2px;
+    display: block;
+    border: 2px solid;
+    margin-bottom: 5px;
+    margin-top: -5px;
+    justify-items: center;
+}
+.link-box {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+.navBtns {
+    width: 100%;
+    border: 1px solid;
+    border-radius: 5px;
+    font-size: medium;
+    background-color: rgba(228, 202, 226, 0.226);
+    display: block;
+    padding: 1%;
+}
+.submitBtn {
+    background-color: rgb(160, 105, 37);
+    border: 1px solid;
+    border-radius: 5px;
+    width: 30%;
+    padding: 2px;
+    margin-top: 5px;
+}
+.w-60 {
+    width: 13rem;
+}
+
+button:hover,:focus {
+    filter: brightness(60%);
+}

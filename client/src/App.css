@@ -1,0 +1,18 @@
+:root{
+    --bg-color: #f5f5f5;
+    --text-color: #333;
+  }
+  
+  /* Dark mode */
+  :root[data-theme="dark"] {
+    --bg-color: #141e33;
+    --text-color: #fff;
+  }
+  
+#root {
+    background-color: var(--bg-color) !important;
+    color: var(--text-color);
+}
+.app {
+  background-color: rgb(171, 175, 181);
+}

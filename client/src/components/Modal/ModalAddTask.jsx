@@ -1,7 +1,6 @@
 import { useState } from "react";
 import Modal from "./Modal";
-import {addNewToDo} from "../../redux/action/index"
-import { useDispatch } from "react-redux"; 
+import axios from "axios";
 const Checkbox = ({label}) => {
 
     const [isChecked, setIsChecked] = useState(false);
@@ -21,20 +20,33 @@ const Checkbox = ({label}) => {
     )
 }
 
-const ModalAddTask = ({onClose}) => {
+const ModalAddTask = ({ onClose }) => {
     const [title,setTitle] = useState('');
-    const [description,setDescription] = useState('')
+    const [description,setDescription] = useState('');
     const[deadline,setDeadline] = useState('');
-    const dispatch = useDispatch();
     
-    const onAddFormSubmit = (e) => {
-    
-        dispatch(addNewToDo({title,description,deadline}))
+    const handleSubmit = async(e) => {
+        e.preventDefault();
 
+        try {
+            const response = await axios.post("http://localhost:5000/task", {
+                title: title,
+                description: description
+            });
+
+            if (response.status === 201) {
+                console.log("successful");
+            } else {
+                console.log("fail");
+            }
+        } catch (err) {
+            console.log(err);
+        }
     }
+
     return (
         <Modal onClose={onClose}>
-            <form className="flex flex-col space-y-4" onSubmit={(e)=> onAddFormSubmit(e)}>
+            <form className="flex flex-col space-y-4" onSubmit={(e)=> handleSubmit(e)}>
                 <label>
                     Title
                     <input
@@ -66,14 +78,13 @@ const ModalAddTask = ({onClose}) => {
                     value={deadline}
                     onChange={e=>{
                         setDeadline(e.target.value)
-                        
                     }}
 
                     />
                 </label>
                 <Checkbox label={"Mark as completed"} />
-                <button className="mt-5 btn">
-                    Add new todo
+                <button className="mt-5 btn" type="submit">
+                    Add new task
                 </button>
             </form>
         </Modal>

@@ -4,14 +4,15 @@ import { useState } from "react";
 import { useEffect } from "react";
 import {useDispatch,useSelector} from "react-redux"
 import {GetAllTasks,DeleteTask} from '../../redux/action/index'
-
 import ModalConfirm from "../Modal/ModalConfirm";
+
 const LayoutRoutes = () => {
 
     const dispatch = useDispatch(); 
-    const allTasks = useSelector(state => state.tasks)
-    const [showDeleteModal,setShowDeleteModal] = useState(false)
-    const [deleteId,setDeleteId] = useState("")
+    const allTasks = useSelector(state => state.tasks);
+    const [showDeleteModal,setShowDeleteModal] = useState(false);
+    const [deleteId,setDeleteId] = useState("");
+
     const addNewTask = () => {
         setModalOpen(true);
     }
@@ -45,12 +46,8 @@ const LayoutRoutes = () => {
             <ul className="mt-4 grid gap-2 xl:grid-cols-3 lg:grid-cols-4 items-end">
                 {allTasks.map((task) => {
                     return (
-                        
                         <Task deleteTask={()=>deleteTask(task._id)} key={task._id} title={task.title} description={task.description}
                         deadline={task.deadline} done={task.done}/>
-                       
-                        
-                        
                     )
                 })}
                 <li>

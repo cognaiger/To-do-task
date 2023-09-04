@@ -43,11 +43,13 @@ const ModalAddTask = ({ onClose }) => {
         } catch (err) {
             console.log(err);
         }
+
+        onClose();
     }
 
     return (
         <Modal onClose={onClose}>
-            <form className="flex flex-col space-y-4" onSubmit={(e)=> handleSubmit(e)}>
+            <form className="flex flex-col space-y-4" onSubmit={(e) => handleSubmit(e)}>
                 <label>
                     Title
                     <input

@@ -63,7 +63,12 @@ const LayoutRoutes = () => {
         return () => {
             ignore = true;
         };
-    }, []);
+    }, [tasks]);
+
+    const convertDate = (mongoDate) => {
+        const date = new Date(mongoDate);
+        return `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear().toString()}`;
+    }
 
     return (
         <div>
@@ -75,7 +80,7 @@ const LayoutRoutes = () => {
                 {tasks.map((task) => {
                     return (
                         <Task deleteTask={() => confirmDeleteTask(task._id)} key={task._id} title={task.title} description={task.description}
-                        deadline={task.deadline} done={task.done}/>
+                        deadline={convertDate(task.deadline)} done={task.done}/>
                     )
                 })}
                 <li>

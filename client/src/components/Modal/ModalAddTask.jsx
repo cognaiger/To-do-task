@@ -21,9 +21,9 @@ const Checkbox = ({label}) => {
 }
 
 const ModalAddTask = ({ onClose }) => {
-    const [title,setTitle] = useState('');
-    const [description,setDescription] = useState('');
-    const[deadline,setDeadline] = useState('');
+    const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
+    const[deadline, setDeadline] = useState('');
     
     const handleSubmit = async(e) => {
         e.preventDefault();
@@ -31,7 +31,8 @@ const ModalAddTask = ({ onClose }) => {
         try {
             const response = await axios.post("http://localhost:5000/task", {
                 title: title,
-                description: description
+                description: description,
+                deadline: deadline
             });
 
             if (response.status === 201) {

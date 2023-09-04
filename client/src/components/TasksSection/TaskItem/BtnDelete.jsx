@@ -1,6 +1,6 @@
 import { ReactComponent as Trash } from "../../../assets/trash.svg";
 
-const BtnDelete = ({deleteTask}) => {
+const BtnDelete = ({ deleteTask }) => {
     return (
         <button onClick={deleteTask} className="ml-2 transition">
             <Trash className="w-5 h-5"/>

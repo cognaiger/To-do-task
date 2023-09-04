@@ -1,7 +1,6 @@
 import BtnComplete from "./BtnComplete";
 import BtnDelete from "./BtnDelete";
 import BtnEdit from "./BtnEdit";
-import { useState } from "react";
 import '../../../style/SingleTask.css'
 import { ReactComponent as Calendar } from "../../../assets/date.svg";
 
@@ -25,10 +24,9 @@ const Task = ({deleteTask, handleShowDeleteModal,title, description, deadline, d
                 </div>
                 <div className="flex border-dashed border-slate-200 border-t-2 w-full pt-4 mt-4">
                     <BtnComplete status={done} />
-                    <BtnDelete deleteTask={deleteTask}  />
+                    <BtnDelete deleteTask={deleteTask} />
                     <BtnEdit />
                 </div>
-
             </div>
             
 

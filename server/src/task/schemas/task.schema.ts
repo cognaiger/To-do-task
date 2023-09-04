@@ -18,7 +18,10 @@ export class Task {
     deletedAt?: Date;
 
     @Prop()
-    completedAt?: Date;
+    completedAt: Date;
+
+    @Prop({ required: true })
+    deadline: Date;
 }
 
 export const TaskSchema = SchemaFactory.createForClass(Task);

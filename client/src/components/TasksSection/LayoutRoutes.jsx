@@ -2,51 +2,79 @@ import Task from "./TaskItem/Task";
 import ModalAddTask from "../Modal/ModalAddTask";
 import { useState } from "react";
 import { useEffect } from "react";
-import {useDispatch,useSelector} from "react-redux"
-import {GetAllTasks,DeleteTask} from '../../redux/action/index'
 import ModalConfirm from "../Modal/ModalConfirm";
+import axios from "axios";
 
 const LayoutRoutes = () => {
 
-    const dispatch = useDispatch(); 
-    const allTasks = useSelector(state => state.tasks);
-    const [showDeleteModal,setShowDeleteModal] = useState(false);
-    const [deleteId,setDeleteId] = useState("");
+    const [tasks, setTasks] = useState([]);
+    const [deleteModalOpen,setDeleteModalOpen] = useState(false);
+    const [addModalOpen, setAddModalOpen] = useState(false);
+    const [idDeleteTask, setIdDeleteTask] = useState('');
 
     const addNewTask = () => {
-        setModalOpen(true);
+        setAddModalOpen(true);
     }
 
-    const closeModal = () => {
-        setModalOpen(false);
-    }
-    const handleShowDeleteModal = () => {
-        setShowDeleteModal(!showDeleteModal)
-    }
-    const handleDeleteItem = () => {
-        dispatch(DeleteTask(deleteId))
-        setShowDeleteModal(!showDeleteModal)
-    }
-    const deleteTask = (id) => {
-        setShowDeleteModal(!showDeleteModal)
-        setDeleteId(id)
+    const closeAddModal = () => {
+        setAddModalOpen(false);
     }
 
-    const [modalOpen, setModalOpen] = useState(false);
-    useEffect(()=>{
-        dispatch(GetAllTasks())
-    },[dispatch])
+    const closeDeleteModal = () => {
+        setDeleteModalOpen(false);
+    }
+
+    const deleteTask = async() => {
+        setDeleteModalOpen(false);
+        try {
+            const response = await axios.delete(`http://localhost:5000/task/${idDeleteTask}`);
+            if (response.status === 200) {
+                console.log("delete successfully");
+            } else {
+                console.log("delete failed");
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    const confirmDeleteTask = (id) => {
+        setDeleteModalOpen(true);
+        setIdDeleteTask(id);
+    }
+
+
+    useEffect(() => {
+        let ignore = false;
+
+        async function fetchTask() {
+            try {
+                const res = await axios.get("http://localhost:5000/task");
+                if (!ignore) {
+                    setTasks(res.data);
+                }
+            } catch (err) {
+                console.log(err);
+            }
+        }
+
+        fetchTask();
+
+        return () => {
+            ignore = true;
+        };
+    }, []);
 
     return (
         <div>
-            {modalOpen && <ModalAddTask title={"Add new task"} onClose={closeModal}/>}
+            {addModalOpen && <ModalAddTask title={"Add new task"} onClose={closeAddModal}/>}
             <h1 className="font-medium my-5 text-center text-lg">
                 Tasks
             </h1>
             <ul className="mt-4 grid gap-2 xl:grid-cols-3 lg:grid-cols-4 items-end">
-                {allTasks.map((task) => {
+                {tasks.map((task) => {
                     return (
-                        <Task deleteTask={()=>deleteTask(task._id)} key={task._id} title={task.title} description={task.description}
+                        <Task deleteTask={() => confirmDeleteTask(task._id)} key={task._id} title={task.title} description={task.description}
                         deadline={task.deadline} done={task.done}/>
                     )
                 })}
@@ -58,7 +86,7 @@ const LayoutRoutes = () => {
                 </li>
                 
             </ul>
-            {showDeleteModal && <ModalConfirm handleDeleteItem={handleDeleteItem}  onClose={handleShowDeleteModal} text={`Delete this task `}/>}
+            {deleteModalOpen && <ModalConfirm onClose={closeDeleteModal} handleDeleteItem={deleteTask} text={`Delete this task `}/>}
         </div>
     )
 }

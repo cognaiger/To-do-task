@@ -20,7 +20,7 @@ const Checkbox = ({label}) => {
     )
 }
 
-const ModalAddTask = ({ onClose }) => {
+const ModalAddTask = ({ onClose, setNewTask, newTask }) => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const[deadline, setDeadline] = useState('');
@@ -44,6 +44,7 @@ const ModalAddTask = ({ onClose }) => {
             console.log(err);
         }
 
+        setNewTask(!newTask);
         onClose();
     }
 

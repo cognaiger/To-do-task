@@ -8,6 +8,7 @@ import axios from "axios";
 const LayoutRoutes = () => {
 
     const [tasks, setTasks] = useState([]);
+    const [newTask, setNewTask] = useState(true);
     const [deleteModalOpen,setDeleteModalOpen] = useState(false);
     const [addModalOpen, setAddModalOpen] = useState(false);
     const [idDeleteTask, setIdDeleteTask] = useState('');
@@ -36,13 +37,13 @@ const LayoutRoutes = () => {
         } catch (err) {
             console.log(err);
         }
+        setNewTask(!newTask);
     }
 
     const confirmDeleteTask = (id) => {
         setDeleteModalOpen(true);
         setIdDeleteTask(id);
     }
-
 
     useEffect(() => {
         let ignore = false;
@@ -63,7 +64,7 @@ const LayoutRoutes = () => {
         return () => {
             ignore = true;
         };
-    }, [tasks]);
+    }, [newTask]);
 
     const convertDate = (mongoDate) => {
         const date = new Date(mongoDate);
@@ -72,7 +73,7 @@ const LayoutRoutes = () => {
 
     return (
         <div>
-            {addModalOpen && <ModalAddTask title={"Add new task"} onClose={closeAddModal}/>}
+            {addModalOpen && <ModalAddTask onClose={closeAddModal} setNewTask={setNewTask} newTask={newTask} />}
             <h1 className="font-medium my-5 text-center text-lg">
                 Tasks
             </h1>
